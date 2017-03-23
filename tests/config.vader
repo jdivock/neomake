@@ -16,7 +16,6 @@ Execute (neomake#config#get_setting: basic):
 
   let maker = {'foo': 'maker'}
   let jobinfo = {'maker': maker}
-  Log 1
   AssertEqual neomake#config#get_setting('foo', 'default', jobinfo), 'buffer'
   unlet b:neomake
   AssertEqual neomake#config#get_setting('foo', 'default', jobinfo), 'global'
