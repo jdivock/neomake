@@ -1,43 +1,43 @@
 Include: include/setup.vader
 
-Execute (neomake#config#get_setting: basic):
+Execute (neomake#config#get: basic):
   Save g:neomake
   new
 
-  AssertEqual neomake#config#get_setting('foo', 'default'), 'default'
+  AssertEqual neomake#config#get('foo', 'default'), 'default'
   let g:neomake = {}
-  AssertEqual neomake#config#get_setting('foo', 'default'), 'default'
+  AssertEqual neomake#config#get('foo', 'default'), 'default'
   let g:neomake = {'foo': 'global'}
-  AssertEqual neomake#config#get_setting('foo', 'default'), 'global'
+  AssertEqual neomake#config#get('foo', 'default'), 'global'
   let b:neomake = {}
-  AssertEqual neomake#config#get_setting('foo', 'default'), 'global'
+  AssertEqual neomake#config#get('foo', 'default'), 'global'
   let b:neomake = {'foo': 'buffer'}
-  AssertEqual neomake#config#get_setting('foo', 'default'), 'buffer'
+  AssertEqual neomake#config#get('foo', 'default'), 'buffer'
 
   let maker = {'foo': 'maker'}
   let jobinfo = {'maker': maker}
-  AssertEqual neomake#config#get_setting('foo', 'default', jobinfo), 'buffer'
+  AssertEqual neomake#config#get('foo', 'default', jobinfo), 'buffer'
   unlet b:neomake
-  AssertEqual neomake#config#get_setting('foo', 'default', jobinfo), 'global'
+  AssertEqual neomake#config#get('foo', 'default', jobinfo), 'global'
   unlet g:neomake
-  AssertEqual neomake#config#get_setting('foo', 'default', jobinfo), 'maker'
+  AssertEqual neomake#config#get('foo', 'default', jobinfo), 'maker'
   let jobinfo.maker = {}
-  AssertEqual neomake#config#get_setting('foo', 'default', jobinfo), 'default'
+  AssertEqual neomake#config#get('foo', 'default', jobinfo), 'default'
 
   bwipe
 
-Execute (neomake#config#get_setting with filetypes):
+Execute (neomake#config#get with filetypes):
   Save g:neomake
   new
 
   set filetype=myft
 
-  AssertEqual neomake#config#get_setting('foo', []), []
+  AssertEqual neomake#config#get('foo', []), []
   let g:neomake = {'foo': ['maker1']}
-  AssertEqual neomake#config#get_setting('foo', 'default'), ['maker1']
+  AssertEqual neomake#config#get('foo', 'default'), ['maker1']
 
   let g:neomake = {'ft:myft': {'foo': ['myft_maker']}}
-  AssertEqual neomake#config#get_setting('foo', 'default'), ['myft_maker']
+  AssertEqual neomake#config#get('foo', 'default'), ['myft_maker']
 
   bwipe
 

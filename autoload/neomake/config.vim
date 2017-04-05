@@ -1,6 +1,6 @@
 let s:undef = {}
 
-function! neomake#config#get_setting(name, default, ...) abort
+function! neomake#config#get(name, default, ...) abort
   let context = a:0 ? a:1 : {}
   let ft = has_key(context, 'ft') ? context.ft : &filetype
   let bufnr = has_key(context, 'bufnr') ? +context.bufnr : bufnr('%')
