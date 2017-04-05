@@ -40,3 +40,38 @@ Execute (neomake#config#get_setting with filetypes):
   AssertEqual neomake#config#get_setting('foo', 'default'), ['myft_maker']
 
   bwipe
+
+Execute (neomake#config#set):
+  Save g:neomake
+  call neomake#config#set('foo', 'bar')
+  AssertEqual g:neomake, {'foo': 'bar'}
+  unlet g:neomake
+
+  call neomake#config#set('autolint.ignore_filetypes', ['startify'])
+  AssertEqual g:neomake, {'autolint': {'ignore_filetypes': ['startify']}}
+
+Execute (neomake#config#set_buffer):
+  new
+  let bufnr = bufnr('%')
+  call neomake#config#set_buffer(bufnr, 'foo', 'bar')
+  AssertEqual b:neomake, {'foo': 'bar'}
+  unlet b:neomake
+
+  call neomake#config#set_buffer(bufnr, 'autolint.ignore_filetypes', ['startify'])
+  let expected = {'autolint': {'ignore_filetypes': ['startify']}}
+  AssertEqual b:neomake, expected
+  b#
+
+  AssertEqual getbufvar(bufnr, 'neomake'), expected
+  b#
+  bwipe!
+
+Execute (neomake#config#set with b: prefix):
+  new
+  call neomake#config#set('b:foo', 'bar')
+  AssertEqual b:neomake, {'foo': 'bar'}
+  unlet b:neomake
+
+  call neomake#config#set('b:autolint.ignore_filetypes', ['startify'])
+  AssertEqual b:neomake, {'autolint': {'ignore_filetypes': ['startify']}}
+  bwipe!
