@@ -328,7 +328,6 @@ function! neomake#utils#GetSetting(key, maker, default, ft, bufnr) abort
   endif
   let Ret = neomake#config#get(a:key, g:neomake#config#undefined, context)
   if Ret isnot g:neomake#config#undefined
-    Log ['new_get', a:key, a:maker, a:default, a:ft, a:bufnr, get(g:, 'neomake', {}), get(b:, 'neomake', {}), '=>', Ret]
     return Ret
   endif
   let maker_name = has_key(a:maker, 'name') ? a:maker.name : ''
