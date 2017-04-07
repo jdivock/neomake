@@ -36,14 +36,32 @@ Execute (neomake#config#get with filetypes):
   let g:neomake = {'foo': ['maker1']}
   AssertEqual neomake#config#get('foo', 'default'), ['maker1']
 
-  let g:neomake = {'ft:myft': {'foo': ['myft_maker']}}
+  let g:neomake = {'ft': {'myft': {'foo': ['myft_maker']}}}
   AssertEqual neomake#config#get('foo', 'default'), ['myft_maker']
 
   bwipe
 
+Execute (neomake#config#get with b: prefix, no default and bufnr context):
+  new
+  let b:neomake = {'foo': 'bar'}
+  AssertEqual neomake#config#get('b:foo'), 'bar'
+  unlet b:neomake
+
+  let b:neomake = {'autolint': {'ignore_filetypes': ['startify']}}
+  AssertEqual neomake#config#get('b:autolint.ignore_filetypes'), ['startify']
+
+  let bufnr = bufnr('%')
+  new
+  AssertEqual neomake#config#get('b:autolint.ignore_filetypes', [],
+  \ {'bufnr': bufnr}), ['startify']
+
+  bwipe
+  bwipe
+
 Execute (neomake#config#set):
   Save g:neomake
-  call neomake#config#set('foo', 'bar')
+  let config = neomake#config#set('foo', 'bar')
+  AssertEqual config, {'foo': 'bar'}
   AssertEqual g:neomake, {'foo': 'bar'}
   unlet g:neomake
 
