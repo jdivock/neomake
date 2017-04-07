@@ -17,7 +17,11 @@ endfunction
 function! s:get(dict, name, context) abort
   let ft = has_key(a:context, 'ft') ? a:context.ft : &filetype
   let parts = split(a:name, '\.')
-  for prefix in ['ft.'.ft.'.', '']
+  let prefixes = ['']
+  if !empty(ft)
+    call insert(prefixes, 'ft.'.ft.'.', 0)
+  endif
+  for prefix in prefixes
     let [c, k] = s:resolve_name(a:dict, prefix.join(parts[0:-1], '.'))
     if has_key(c, k)
       return c[k]
