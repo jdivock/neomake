@@ -51,12 +51,11 @@ function! neomake#config#get(name, ...) abort
         \ getbufvar(bufnr, 'neomake'),
         \ get(g:, 'neomake', {}),
         \ get(context, 'maker', {})]
-    if empty(lookup)
-      continue
-    endif
-    let R = s:get(lookup, name, context)
-    if R isnot# g:neomake#config#undefined
-      return R
+    if !empty(lookup)
+      let R = s:get(lookup, name, context)
+      if R isnot# g:neomake#config#undefined
+        return R
+      endif
     endif
     unlet! lookup R  " old vim
   endfor
