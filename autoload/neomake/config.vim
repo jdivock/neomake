@@ -85,6 +85,7 @@ function! neomake#config#set_buffer(bufnr, name, value) abort
   let bufnr = +a:bufnr
   let bneomake = getbufvar(bufnr, 'neomake')
   if bneomake is# ''
+    unlet bneomake  " old vim
     let bneomake = {}
     call setbufvar(bufnr, 'neomake', bneomake)
   endif
