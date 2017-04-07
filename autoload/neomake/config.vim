@@ -16,10 +16,7 @@ endfunction
 " Get a:name (resolved; split on dots) from a:dict, using a:context.
 function! s:get(dict, name, context) abort
   let ft = has_key(a:context, 'ft') ? a:context.ft : &filetype
-  let bufnr = has_key(a:context, 'bufnr') ? +a:context.bufnr : bufnr('%')
-
   let parts = split(a:name, '\.')
-
   for prefix in ['ft.'.ft.'.', '']
     let [c, k] = s:resolve_name(a:dict, prefix.join(parts[0:-1], '.'))
     if has_key(c, k)
