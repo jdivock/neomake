@@ -1,5 +1,4 @@
-let s:undef = {}
-let neomake#config#undef = s:undef
+let g:neomake#config#undefined = {}
 
 " Resolve a:name (split on dots) and init a:dict accordingly.
 function! s:resolve_name(dict, name) abort
@@ -27,7 +26,7 @@ function! s:get(dict, name, context) abort
       return c[k]
     endif
   endfor
-  return s:undef
+  return g:neomake#config#undefined
 endfunction
 
 " Get a:name from config.
@@ -35,7 +34,7 @@ endfunction
 "  - a:1: default
 "  - a:2: context
 function! neomake#config#get(name, ...) abort
-  let default = a:0 ? a:1 : s:undef
+  let default = a:0 ? a:1 : g:neomake#config#undefined
   let context = a:0 > 1 ? a:2 : {}
   if a:name =~# '^b:'
     if !has_key(context, 'bufnr')
@@ -55,7 +54,7 @@ function! neomake#config#get(name, ...) abort
       continue
     endif
     let r = s:get(lookup, name, context)
-    if r isnot# s:undef
+    if r isnot# g:neomake#config#undefined
       return r
     endif
     unlet! lookup r " old vim
