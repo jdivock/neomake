@@ -93,3 +93,15 @@ Execute (neomake#config#set with b: prefix):
   call neomake#config#set('b:autolint.ignore_filetypes', ['startify'])
   AssertEqual b:neomake, {'autolint': {'ignore_filetypes': ['startify']}}
   bwipe!
+
+Execute (neomake#config#get handles Funcref variables):
+  new
+
+  function! NeomakeTestsF()
+  endfunction
+  let Funcref = function('NeomakeTestsF')
+
+  call neomake#config#set('b:function', Funcref)
+  AssertEqual neomake#config#get('b:function'), Funcref
+
+  bwipe

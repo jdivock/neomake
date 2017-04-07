@@ -34,7 +34,7 @@ endfunction
 "  - a:1: default
 "  - a:2: context
 function! neomake#config#get(name, ...) abort
-  let default = a:0 ? a:1 : g:neomake#config#undefined
+  let Default = a:0 ? a:1 : g:neomake#config#undefined
   let context = a:0 > 1 ? a:2 : {}
   if a:name =~# '^b:'
     if !has_key(context, 'bufnr')
@@ -53,13 +53,13 @@ function! neomake#config#get(name, ...) abort
     if empty(lookup)
       continue
     endif
-    let r = s:get(lookup, name, context)
-    if r isnot# g:neomake#config#undefined
-      return r
+    let R = s:get(lookup, name, context)
+    if R isnot# g:neomake#config#undefined
+      return R
     endif
-    unlet! lookup r " old vim
+    unlet! lookup R  " old vim
   endfor
-  return default
+  return Default
 endfunction
 
 " Set a:name in a:dict to a:value, after resolving it (split on dots).
